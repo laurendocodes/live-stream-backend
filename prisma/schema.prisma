@@ -12,7 +12,7 @@ datasource db {
 
   provider = "postgresql"
 
-  url      = env("DATABASE_URL")
+
 
 }
 
@@ -45,6 +45,14 @@ model Stream {
   id          String   @id @default(uuid())
 
   streamKey   String   @unique
+
+  description String
+
+  title       String
+
+  coverArt    String?
+
+  isEnded     Boolean  @default(false)
 
   streamUrl   String?
 
