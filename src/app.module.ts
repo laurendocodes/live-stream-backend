@@ -24,6 +24,7 @@ import { GatewayModule } from './gateway/gateway.module';
     }),
     StreamModule,
     GatewayModule,
+
   ],
   controllers: [AppController],
   providers: [AppService,

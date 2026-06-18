@@ -9,59 +9,65 @@ generator client {
 }
 
 datasource db {
-
   provider = "postgresql"
-
-
-
 }
 
 model User {
+  id String @id @default(uuid())
 
-  id         String   @id @default(uuid())
+  name String
 
-  name       String
+  email String @unique
 
-  email      String   @unique
+  password String
 
-  password   String
+  isActive Boolean @default(true)
 
-  isActive   Boolean  @default(true)
+  googleId String?
 
-  googleId   String?
+  avatarUrl String?
 
-  avatarUrl  String?
+  bio String?
 
-  bio        String?
+  joinedAt DateTime @default(now())
 
-  joinedAt   DateTime @default(now())
+  streams Stream[]
 
-  streams    Stream[]
-
+  comments Comment[]
 }
 
 model Stream {
+  id String @id @default(uuid())
 
-  id          String   @id @default(uuid())
-
-  streamKey   String   @unique
+  streamKey String @unique
 
   description String
 
-  title       String
+  title String
 
-  coverArt    String?
+  coverArt String?
 
-  isEnded     Boolean  @default(false)
+  isEnded Boolean @default(false)
 
-  streamUrl   String?
+  streamUrl String?
 
-  streamerId  String
+  streamerId String
 
-  streamer    User     @relation(fields: [streamerId], references: [id])
+  streamer User @relation(fields: [streamerId], references: [id])
 
-  startedAt   DateTime @default(now())
+  startedAt DateTime @default(now())
 
-  endedAt     DateTime?
+  endedAt DateTime?
 
+  comments Comment[]
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  message   String
+  userId    String
+  streamId  String
+  user      User     @relation(fields: [userId], references: [id])
+  stream    Stream   @relation(fields: [streamId], references: [id])
+  createdAt DateTime @default(now())
 }
